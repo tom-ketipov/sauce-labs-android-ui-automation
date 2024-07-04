@@ -3,6 +3,7 @@ package core;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.android.options.UiAutomator2Options;
 import pages.authentication.AuthenticationPage;
+import pages.products.ProductsPage;
 
 import java.io.File;
 import java.net.MalformedURLException;
@@ -14,9 +15,14 @@ public class App {
 
     // # pages
     private AuthenticationPage authenticationPage;
+    private ProductsPage productsPage;
 
     public AuthenticationPage authenticationPage() {
         return authenticationPage == null ? new AuthenticationPage(driver) : authenticationPage;
+    }
+
+    public ProductsPage productsPage() {
+        return productsPage == null ? new ProductsPage(driver) : productsPage;
     }
 
     protected void config() throws MalformedURLException {
