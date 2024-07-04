@@ -3,7 +3,6 @@ package core;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.android.options.UiAutomator2Options;
 import pages.authentication.AuthenticationPage;
-import pages.products.ProductsPage;
 
 import java.io.File;
 import java.net.MalformedURLException;
@@ -12,6 +11,13 @@ import java.time.Duration;
 
 public class App {
     private AppiumDriver driver;
+
+    // # pages
+    private AuthenticationPage authenticationPage;
+
+    public AuthenticationPage authenticationPage() {
+        return authenticationPage == null ? new AuthenticationPage(driver) : authenticationPage;
+    }
 
     protected void config() throws MalformedURLException {
         File apk = new File("src/main/resources/app/android/Android.SauceLabs.Mobile.Sample.app.2.7.1.apk");
