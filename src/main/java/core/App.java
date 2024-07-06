@@ -13,6 +13,18 @@ import java.time.Duration;
 public class App {
     private AppiumDriver driver;
 
+    // # pages
+    private AuthenticationPage authenticationPage;
+    private ProductsPage productsPage;
+
+    public AuthenticationPage authenticationPage() {
+        return authenticationPage == null ? new AuthenticationPage(driver) : authenticationPage;
+    }
+
+    public ProductsPage productsPage() {
+        return productsPage == null ? new ProductsPage(driver) : productsPage;
+    }
+
     protected void config() throws MalformedURLException {
         File apk = new File("src/main/resources/app/android/Android.SauceLabs.Mobile.Sample.app.2.7.1.apk");
 
