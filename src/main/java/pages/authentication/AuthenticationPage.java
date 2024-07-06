@@ -1,14 +1,10 @@
 package pages.authentication;
 
-import enums.Directions;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.pagefactory.AndroidFindBy;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.CacheLookup;
 import pages.BasePage;
-
-import java.sql.SQLOutput;
-import java.util.logging.Logger;
 
 public class AuthenticationPage extends BasePage {
     public AuthenticationPage(AppiumDriver driver) {
@@ -28,8 +24,15 @@ public class AuthenticationPage extends BasePage {
     @AndroidFindBy(accessibility = "test-LOGIN")
     WebElement loginBtn;
 
-    @AndroidFindBy(xpath = "//android.widget.TextView[@text='Sorry, this user has been locked out.']")
-    WebElement lockedOutUserErrorMessage;
+    @CacheLookup
+    @AndroidFindBy(accessibility = "test-biometry")
+    WebElement biometricLoginBtn;
+
+    @AndroidFindBy(accessibility = "test-Error message")
+    WebElement errorMessage;
+
+    @AndroidFindBy(xpath = "//android.view.ViewGroup[@content-desc='test-Error message'] //android.widget.TextView")
+    WebElement errorMessageTextView;
 
 
     // # auto-fill user credential buttons
@@ -71,12 +74,16 @@ public class AuthenticationPage extends BasePage {
         click(loginBtn);
     }
 
-    public WebElement getLockedOutUserErrorMessage() {
-        return lockedOutUserErrorMessage;
+    public void clickBiometricLoginBtn() {
+        click(biometricLoginBtn);
     }
 
-    public String getLoggedOutUserErrorMessageText() {
-        return getText(lockedOutUserErrorMessage);
+    public WebElement getErrorMessage() {
+        return errorMessage;
+    }
+
+    public String getErrorMessageText() {
+        return getText(errorMessageTextView);
     }
 
 

@@ -6,8 +6,6 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
-import javax.swing.*;
-
 public class AuthenticationPageTest extends BaseTest {
 
     // # authentication form
@@ -19,6 +17,36 @@ public class AuthenticationPageTest extends BaseTest {
         app.authenticationPage().clickLoginBtn();
 
         Assertions.assertTrue(app.productsPage().isDisplayed(app.productsPage().getProductsPageTitle()));
+    }
+
+    @Test
+    @Tag("Negative")
+    public void cant_authenticate_with_standard_user_if_the_username_entry_is_in_uppercase() {
+        app.authenticationPage().enterUsername(AcceptedUsernames.STANDARD_USER.getUsername().toUpperCase());
+        app.authenticationPage().enterPassword(Password.SECRET_SAUCE.getPassword());
+        app.authenticationPage().clickLoginBtn();
+
+        Assertions.assertEquals("Username and password do not match any user in this service.", app.authenticationPage().getErrorMessageText());
+    }
+
+    @Test
+    @Tag("Negative")
+    public void cant_authenticate_with_standard_user_if_the_password_entry_is_in_uppercase() {
+        app.authenticationPage().enterUsername(AcceptedUsernames.STANDARD_USER.getUsername());
+        app.authenticationPage().enterPassword(Password.SECRET_SAUCE.getPassword().toUpperCase());
+        app.authenticationPage().clickLoginBtn();
+
+        Assertions.assertEquals("Username and password do not match any user in this service.", app.authenticationPage().getErrorMessageText());
+    }
+
+    @Test
+    @Tag("Negative")
+    public void cant_authenticate_with_standard_user_with_no_password() {
+        app.authenticationPage().enterUsername(AcceptedUsernames.STANDARD_USER.getUsername());
+        app.authenticationPage().enterPassword("");
+        app.authenticationPage().clickLoginBtn();
+
+        Assertions.assertEquals("Password is required", app.authenticationPage().getErrorMessageText());
     }
 
     @Test
@@ -38,7 +66,7 @@ public class AuthenticationPageTest extends BaseTest {
         app.authenticationPage().enterPassword(Password.SECRET_SAUCE.getPassword());
         app.authenticationPage().clickLoginBtn();
 
-        Assertions.assertTrue(app.authenticationPage().isDisplayed(app.authenticationPage().getLockedOutUserErrorMessage()));
+        Assertions.assertEquals("Sorry, this user has been locked out.", app.authenticationPage().getErrorMessageText());
     }
 
 
