@@ -10,60 +10,42 @@ public class AuthenticationPageTest extends BaseTest {
     @Test
     @Tag("Positive")
     public void can_authenticate_with_standard_user_and_valid_password() {
-        app.authenticationPage().enterUsername(configurationManager.getStandardUser());
-        app.authenticationPage().enterPassword(configurationManager.getPassword());
-        app.authenticationPage().clickLoginBtn();
-
+        app.authenticationPage().authenticate(configurationManager.getStandardUser(), configurationManager.getPassword());
         Assertions.assertTrue(app.productsPage().isDisplayed(app.productsPage().getProductsPageTitle()));
     }
 
     @Test
     @Tag("Negative")
     public void cant_authenticate_with_standard_user_if_the_username_entry_is_in_uppercase() {
-        app.authenticationPage().enterUsername(configurationManager.getStandardUser().toUpperCase());
-        app.authenticationPage().enterPassword(configurationManager.getPassword());
-        app.authenticationPage().clickLoginBtn();
-
+        app.authenticationPage().authenticate(configurationManager.getStandardUser().toUpperCase(), configurationManager.getPassword());
         Assertions.assertEquals("Username and password do not match any user in this service.", app.authenticationPage().getErrorMessageText());
     }
 
     @Test
     @Tag("Negative")
     public void cant_authenticate_with_standard_user_if_the_password_entry_is_in_uppercase() {
-        app.authenticationPage().enterUsername(configurationManager.getStandardUser());
-        app.authenticationPage().enterPassword(configurationManager.getPassword().toUpperCase());
-        app.authenticationPage().clickLoginBtn();
-
+        app.authenticationPage().authenticate(configurationManager.getStandardUser(), configurationManager.getPassword().toUpperCase());
         Assertions.assertEquals("Username and password do not match any user in this service.", app.authenticationPage().getErrorMessageText());
     }
 
     @Test
     @Tag("Negative")
     public void cant_authenticate_with_standard_user_with_no_password() {
-        app.authenticationPage().enterUsername(configurationManager.getStandardUser());
-        app.authenticationPage().enterPassword("");
-        app.authenticationPage().clickLoginBtn();
-
+        app.authenticationPage().authenticate(configurationManager.getStandardUser(), "");
         Assertions.assertEquals("Password is required", app.authenticationPage().getErrorMessageText());
     }
 
     @Test
     @Tag("Positive")
     public void can_authenticate_with_problem_user_and_valid_password() {
-        app.authenticationPage().enterUsername(configurationManager.getProblemUser());
-        app.authenticationPage().enterPassword(configurationManager.getPassword());
-        app.authenticationPage().clickLoginBtn();
-
+        app.authenticationPage().authenticate(configurationManager.getProblemUser(), configurationManager.getPassword());
         Assertions.assertTrue(app.productsPage().isDisplayed(app.productsPage().getProductsPageTitle()));
     }
 
     @Test
     @Tag("Negative")
     public void cant_authenticate_with_locked_out_user_and_valid_password() {
-        app.authenticationPage().enterUsername(configurationManager.getLockedOutUser());
-        app.authenticationPage().enterPassword(configurationManager.getPassword());
-        app.authenticationPage().clickLoginBtn();
-
+        app.authenticationPage().authenticate(configurationManager.getLockedOutUser(), configurationManager.getPassword());
         Assertions.assertEquals("Sorry, this user has been locked out.", app.authenticationPage().getErrorMessageText());
     }
 
