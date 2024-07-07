@@ -111,4 +111,17 @@ public class AuthenticationPage extends BasePage {
     public WebElement getProblemUserAutofillBtn() {
         return problemUserAutofillBtn;
     }
+
+
+    /**
+     * Authenticates a user by entering the username and password, then clicking the login button.
+     *
+     * @param username the username for login
+     * @param password the password for login
+     */
+    public void authenticate(String username, String password) {
+        enterUsername(username);
+        enterPassword(password);
+        clickLoginBtn();
+    }
 }
